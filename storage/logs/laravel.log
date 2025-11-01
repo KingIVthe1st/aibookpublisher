@@ -1,0 +1,12 @@
+[2025-11-01 21:15:12] production.ERROR: Class "Zorb\Promocodes\PromocodesServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Zorb\\Promocodes\\PromocodesServiceProvider\" not found at /private/tmp/aibookpublisher-upload/vendor/laravel/framework/src/Illuminate/Foundation/ProviderRepository.php:206)
+[stacktrace]
+#0 /private/tmp/aibookpublisher-upload/vendor/laravel/framework/src/Illuminate/Foundation/ProviderRepository.php(142): Illuminate\\Foundation\\ProviderRepository->createProvider('Zorb\\\\Promocodes...')
+#1 /private/tmp/aibookpublisher-upload/vendor/laravel/framework/src/Illuminate/Foundation/ProviderRepository.php(61): Illuminate\\Foundation\\ProviderRepository->compileManifest(Array)
+#2 /private/tmp/aibookpublisher-upload/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(871): Illuminate\\Foundation\\ProviderRepository->load(Array)
+#3 /private/tmp/aibookpublisher-upload/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(37): Illuminate\\Foundation\\Application->registerConfiguredProviders()
+#4 /private/tmp/aibookpublisher-upload/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate\\Foundation\\Bootstrap\\RegisterProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#5 /private/tmp/aibookpublisher-upload/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(474): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#6 /private/tmp/aibookpublisher-upload/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#7 /private/tmp/aibookpublisher-upload/artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#8 {main}
+"} 
