@@ -194,7 +194,6 @@ return [
         PragmaRX\Google2FALaravel\ServiceProvider::class,
         ZanySoft\Zip\ZipServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-        Zorb\Promocodes\PromocodesServiceProvider::class,
 
         /*
          * Application Service Providers...
