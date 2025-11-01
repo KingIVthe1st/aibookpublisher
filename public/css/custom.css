@@ -1,0 +1,91 @@
+/* Global Custom Styles */
+
+html {
+  background: #f8f8f8;
+}
+
+.page a {
+  color: #fbb722;
+}
+
+/* Slider */
+
+.case-studies .slick-slide {
+  transition: all 0.2s ease-in-out;
+}
+
+.case-studies .slick-slide img {
+  display: inline-block;
+  width: 714px;
+}
+
+/* the slides */
+
+.case-studies .slick-slide {
+  margin: 0 23px;
+}
+
+.case-studies .slick-list {
+  margin: 0 -23px;
+}
+
+.case-studies .slick-slide .case-title,
+.case-studies .slick-slide .read-success,
+.case-studies .slick-slide .case-company {
+  display: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.case-studies .slick-active .case-title,
+.case-studies .slick-active .read-success,
+.case-studies .slick-active .case-company {
+  display: block;
+  transition: all 0.2s ease-in-out;
+}
+
+.case-studies .slick-slide .case {
+  transform: scale(0.8);
+  transition: all 0.2s ease-in-out;
+}
+
+.case-studies .slick-slide.slick-active .case {
+  transform: none;
+}
+
+.slick-slider div {
+  transition: none;
+}
+
+@media screen and (min-width: 1921px) {
+  .case-studies .slick-slide img {
+    width: 1000px;
+  }
+}
+
+@media screen and (max-width: 1920px) {
+  .case-studies .slick-slide img {
+    width: 714px;
+  }
+  .case-studies .slick-slide {
+    margin: 0 23px;
+  }
+  .case-studies .slick-list {
+    margin: 0 -23px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .case-studies .slick-slide,
+  .case-studies .slick-list {
+    margin: 0;
+  }
+  .case-studies .slick-slide img {
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .case-studies .slick-slide img {
+    width: 600px;
+  }
+}
