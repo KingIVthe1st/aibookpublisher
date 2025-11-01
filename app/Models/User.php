@@ -8,14 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-use Zorb\Promocodes\Traits\AppliesPromocode;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory;
-    use Notifiable; 
-    use HasRoles; 
-    use AppliesPromocode;
+    use Notifiable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
