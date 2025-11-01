@@ -14,7 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('custom_templates', function (Blueprint $table) {
-            $table->string('package')->nullable()->default('all');
+            if (!Schema::hasColumn('custom_templates', 'package')) {
+                $table->string('package')->nullable()->default('all');
+            }
         });
     }
 
