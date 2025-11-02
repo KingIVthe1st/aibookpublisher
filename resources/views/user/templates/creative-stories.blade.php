@@ -375,8 +375,9 @@
 			$.ajax({
 				headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 				method: 'POST',
-				url: 'generate',
+				url: '/user/templates/original-template/generate',
 				data: form.serialize(),
+				dataType: 'json',
 				beforeSend: function() {
 					$('#generate').html('');
 					$('#generate').prop('disabled', true);
@@ -385,8 +386,19 @@
 				},
 				success: function (data) {
 
-					if (data['status'] == 'error') {
-						Swal.fire('{{ __('Text Generation Error') }}', data['message'], 'warning');
+					console.log('Generate response:', data);
+
+					if (!data || typeof data !== 'object') {
+						Swal.fire('{{ __('Text Generation Error') }}', 'Invalid response from server', 'error');
+						$('#generate').prop('disabled', false);
+						$('#processing', '#generate').empty().remove();
+						$('#processing').hide();
+						$('#generate').html('{{ __('Generate Text') }}');
+						return;
+					}
+
+					if (data['status'] == 'error' || !data['id']) {
+						Swal.fire('{{ __('Text Generation Error') }}', data['message'] || 'Unknown error occurred', 'warning');
 						$('#generate').prop('disabled', false);
 						$('#processing', '#generate').empty().remove();
 						$('#processing').hide();
