@@ -607,15 +607,20 @@ class TemplateController extends Controller
                 'max_words' => $max_words,
             ]);
 
-            echo 'data: [ERROR] Content not found, please retry generation.';
-            echo "\n\n";
-            ob_flush();
-            flush();
-            echo 'data: [DONE]';
-            echo "\n\n";
-            ob_flush();
-            flush();
-            return;
+            return response()->stream(function () {
+                echo 'data: [ERROR] Content not found, please retry generation.';
+                echo "\n\n";
+                ob_flush();
+                flush();
+                echo 'data: [DONE]';
+                echo "\n\n";
+                ob_flush();
+                flush();
+            }, 200, [
+                'Cache-Control' => 'no-cache',
+                'Content-Type' => 'text/event-stream',
+                'X-Accel-Buffering' => 'no',
+            ]);
         }
         $prompt = $content->input_text;
         $uploading = new UserService();
