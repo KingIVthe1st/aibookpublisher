@@ -54,8 +54,18 @@ class HomeController extends Controller
 
 
     /**
+     * Display pricing page
+     *
+     */
+    public function pricing()
+    {
+        return view('pricing');
+    }
+
+
+    /**
      * Display terms & conditions page
-     * 
+     *
      */
     public function termsAndConditions() 
     {

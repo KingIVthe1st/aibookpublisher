@@ -138,7 +138,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <a href="product.html" class="m-navigation-link w-inline-block"
                   ><div>Product</div></a
                 >
-                <a href="pricing.html" class="m-navigation-link w-inline-block"
+                <a href="{{ route('pricing') }}" class="m-navigation-link w-inline-block"
                   ><div>Pricing</div></a
                 ><a
                   href="testimonial.html"
@@ -353,7 +353,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               data-aos-duration="800"
               class="m-header-button-wrapper"
             >
-              <a href="pricing.html" class="m-button-primary w-inline-block"
+              <a href="{{ route('pricing') }}" class="m-button-primary w-inline-block"
                 ><div>Get Started</div></a
               >
             </div>
@@ -465,7 +465,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           <a
             data-aos="slide-up"
             data-aos-duration="800"
-            href="pricing.html"
+            href="{{ route('pricing') }}"
             class="m-button-outline w-inline-block"
             ><div class="text-block-22">Get Started</div></a
           >
@@ -1212,7 +1212,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       </p>
                     </div>
                     <a
-                      href="pricing.html"
+                      href="{{ route('pricing') }}"
                       class="m-content-button w-inline-block"
                       ><div class="text-block-26">Compare Pricing</div>
                       <div class="m-icon-regular w-embed">
@@ -1269,7 +1269,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             World.
           </p>
           <div class="cta-button-wrapper">
-            <a href="pricing.html" class="button-cta-primary w-inline-block"
+            <a href="{{ route('pricing') }}" class="button-cta-primary w-inline-block"
               ><div>Get Started</div></a
             >
           </div>
@@ -1388,7 +1388,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </div>
                 <a href="product.html" class="m-footer-link">How It Works</a
                 ><a
-                  href="pricing.html"
+                  href="{{ route('pricing') }}"
                   aria-current="page"
                   class="m-footer-link w--current"
                   >Pricing</a

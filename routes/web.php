@@ -86,7 +86,8 @@ Route::middleware(['middleware' => 'PreventBackHistory'])->group(function () {
 
 // FRONTEND ROUTES
 Route::controller(HomeController::class)->group(function () {
-    Route::get('/', 'index');
+    Route::get('/', 'index')->name('home');
+    Route::get('/pricing', 'pricing')->name('pricing');
     Route::get('/blog/{slug}', 'blogShow')->name('blogs.show');
     Route::post('/contact', 'contact')->name('contact');
     Route::get('/terms-and-conditions', 'termsAndConditions')->name('terms');
