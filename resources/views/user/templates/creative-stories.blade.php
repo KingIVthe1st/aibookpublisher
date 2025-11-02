@@ -370,19 +370,17 @@
 
 			e.preventDefault();
 
-			console.log('=== FORM SUBMIT HANDLER EXECUTING ===');
-			console.log('Form action prevented, starting AJAX call to generate endpoint');
+			console.log('=== CREATIVE STORIES FORM SUBMIT STARTING ===');
 
 			let form = $(this);
 
 			$.ajax({
 				headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 				method: 'POST',
-				url: '/user/templates/original-template/generate',
+				url: 'generate',
 				data: form.serialize(),
-				dataType: 'json',
 				beforeSend: function() {
-					console.log('=== AJAX BEFORESEND: Calling /user/templates/original-template/generate ===');
+					console.log('=== Calling generate endpoint ===');
 					$('#generate').html('');
 					$('#generate').prop('disabled', true);
 					$('#processing').show().clone().appendTo('#generate');
@@ -390,45 +388,20 @@
 				},
 				success: function (data) {
 
-					console.log('=== AJAX SUCCESS HANDLER EXECUTING ===');
-					console.log('Response received from generate endpoint:', data);
-					console.log('Response type:', typeof data);
-					console.log('Response status:', data ? data.status : 'N/A');
-					console.log('Response id:', data ? data.id : 'N/A');
+					console.log('=== Generate response received ===', data);
 
-					if (!data || typeof data !== 'object') {
-						console.error('ERROR: Invalid response - not an object');
-						Swal.fire('{{ __('Text Generation Error') }}', 'Invalid response from server (not an object)', 'error');
-						$('#generate').prop('disabled', false);
-						$('#processing', '#generate').empty().remove();
-						$('#processing').hide();
-						$('#generate').html('{{ __('Generate Text') }}');
-						return;
-					}
-
-					if (data['status'] == 'error' || !data['id']) {
-						console.error('ERROR: Generate returned error status or missing ID');
-						console.error('Error message:', data['message']);
-						Swal.fire('{{ __('Text Generation Error') }}', data['message'] || 'Generate endpoint returned error or missing content ID', 'warning');
+					if (data['status'] == 'error') {
+						console.error('ERROR: Generate returned error:', data['message']);
+						Swal.fire('{{ __('Text Generation Error') }}', data['message'], 'warning');
 						$('#generate').prop('disabled', false);
 						$('#processing', '#generate').empty().remove();
 						$('#processing').hide();
 						$('#generate').html('{{ __('Generate Text') }}');
 
 					} else {
-						console.log('=== SUCCESS: Content created with ID:', data.id, '===');
-						console.log('Starting EventSource streaming from process endpoint...');
-
-						const processUrl = "/user/templates/original-template/process?content_id=" + data.id +
-							"&max_results=" + data.max_results +
-							"&max_words=" + data.max_words +
-							"&temperature=" + data.temperature +
-							"&language=" + data.language;
-
-						console.log('EventSource URL:', processUrl);
-
-						const eventSource = new EventSource(processUrl);
-
+						console.log('=== Creating EventSource with content_id:', data.id, '===');
+						const eventSource = new EventSource( "/user/templates/original-template/process?content_id=" + data.id+"&max_results=" + data.max_results + "&max_words=" + data.max_words + "&temperature=" + data.temperature + "&language=" + data.language);
+						const response = document.getElementById('richtext');
 						let id = document.querySelector('.richText-editor').id;
 						let editor = document.getElementById(id);
 						let save = document.getElementById('save-button');
@@ -436,8 +409,8 @@
 
 						eventSource.onmessage = function (e) {
 
-							if (e.data == '[DONE]') {
-								console.log('=== STREAMING COMPLETE ===');
+							if ( e.data == '[DONE]' ) {
+								console.log('=== Streaming complete ===');
 								eventSource.close();
 								editor.innerHTML += '<br><br>';
 								$('#generate').prop('disabled', false);
@@ -446,16 +419,18 @@
 								$('#generate').html('{{ __('Generate Text') }}');
 
 							} else {
-								let stream = e.data;
-								if (stream && stream !== '[DONE]') {
+
+								let stream = e.data
+								if ( stream && stream !== '[DONE]') {
 									editor.innerHTML += stream;
 								}
+
 								editor.scrollTop += 100;
 							}
-						};
 
+						};
 						eventSource.onerror = function (e) {
-							console.error('=== EVENTSOURCE ERROR ===', e);
+							console.error('=== EventSource error ===', e);
 							eventSource.close();
 							$('#generate').prop('disabled', false);
 							$('#processing', '#generate').empty().remove();
@@ -465,24 +440,10 @@
 					}
 				},
 
-				error: function(xhr, status, error) {
-					console.error('=== AJAX ERROR HANDLER EXECUTING ===');
-					console.error('AJAX call to generate endpoint FAILED');
-					console.error('Status:', status);
-					console.error('Error:', error);
-					console.error('Response:', xhr.responseText);
-					console.error('Status code:', xhr.status);
-
-					let errorMsg = 'AJAX Error: ' + status + ' - ' + error;
-					if (xhr.status === 500) {
-						errorMsg += '\nServer returned 500 error. Check Laravel logs for details.';
-					}
-
-					Swal.fire('{{ __('AJAX Request Failed') }}', errorMsg, 'error');
+				error: function(data) {
+					console.error('=== AJAX error ===', data);
 					$('#generate').prop('disabled', false);
-					$('#processing', '#generate').empty().remove();
-					$('#processing').hide();
-					$('#generate').html('{{ __('Generate Text') }}');
+            		$('#generate').html('{{ __('Generate Text') }}');
 				}
 			});
 
