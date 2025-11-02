@@ -1,4 +1,4 @@
-{{-- CACHE BUST: Updated 1730595000 - GPT-5 support, fixed EventSource workflow, corrected AJAX endpoints --}}
+{{-- NUCLEAR CACHE BUST: 1762096262 - FORCED FILE RECOGNITION - GPT-5 + EventSource fix --}}
 @extends('layouts.app')
 @section('css')
 	<!-- Sweet Alert CSS -->
@@ -366,12 +366,12 @@
 		});	
 		
 
-		// SUBMIT FORM
+		// SUBMIT FORM - TIMESTAMP: 1762096262 - NUCLEAR CACHE BUST
 		$('#openai-form').on('submit', function(e) {
 
 			e.preventDefault();
 
-			console.log('=== CREATIVE STORIES FORM SUBMIT STARTING ===');
+			console.log('=== CREATIVE STORIES FORM SUBMIT STARTING [BUILD:1762096262] ===');
 
 			let form = $(this);
 
@@ -448,8 +448,8 @@
 				}
 			});
 
-		});
-	});
+		}); // END FORM SUBMIT - BUILD:1762096262
+	}); // BUILD TIMESTAMP: 1762096262
 
 	function nl2br (str, is_xhtml) {
      	var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
