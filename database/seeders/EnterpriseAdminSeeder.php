@@ -8,6 +8,7 @@ use App\Models\SubscriptionPlan;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Spatie\Permission\Models\Role;
 
 class EnterpriseAdminSeeder extends Seeder
 {
@@ -18,6 +19,9 @@ class EnterpriseAdminSeeder extends Seeder
      */
     public function run()
     {
+        // Create admin role if it doesn't exist
+        $adminRole = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+
         // Find the highest tier plan (by price and features)
         $enterprisePlan = SubscriptionPlan::where('status', 'active')
             ->orderBy('price', 'desc')
