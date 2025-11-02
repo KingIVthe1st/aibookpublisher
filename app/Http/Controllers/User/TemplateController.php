@@ -20,6 +20,7 @@ use App\Models\Category;
 use App\Models\ApiKey;
 use App\Models\User;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Log;
 
 
 class TemplateController extends Controller
@@ -597,6 +598,25 @@ class TemplateController extends Controller
         $temperature = $request->temperature;
         $language = $request->language;
         $content = Content::where('id', $content_id)->first();
+
+        if (!$content) {
+            Log::warning('Template stream requested missing content', [
+                'content_id' => $content_id,
+                'user_id' => Auth::id(),
+                'max_results' => $max_results,
+                'max_words' => $max_words,
+            ]);
+
+            echo 'data: [ERROR] Content not found, please retry generation.';
+            echo "\n\n";
+            ob_flush();
+            flush();
+            echo 'data: [DONE]';
+            echo "\n\n";
+            ob_flush();
+            flush();
+            return;
+        }
         $prompt = $content->input_text;
         $uploading = new UserService();
         $upload = $uploading->upload();

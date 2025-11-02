@@ -409,6 +409,16 @@
 						save.setAttribute('target', data['id']);
 
 						eventSource.onmessage = function (e) {
+							if (e.data && e.data.indexOf('[ERROR]') === 0) {
+								const message = e.data.replace('[ERROR]', '').trim() || '{{ __('Unexpected error occurred while generating text') }}';
+								eventSource.close();
+								Swal.fire('{{ __('Text Generation Error') }}', message, 'warning');
+								$('#generate').prop('disabled', false);
+								$('#processing', '#generate').empty().remove();
+								$('#processing').hide();
+								$('#generate').html('{{ __('Generate Text') }}');
+								return;
+							}
 
 							if ( e.data == '[DONE]' ) {
 								console.log('=== Streaming complete ===');
