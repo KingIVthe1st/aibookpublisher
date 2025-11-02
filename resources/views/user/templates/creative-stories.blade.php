@@ -1,3 +1,4 @@
+{{-- CACHE BUST: Updated 1730595000 - GPT-5 support, fixed EventSource workflow, corrected AJAX endpoints --}}
 @extends('layouts.app')
 @section('css')
 	<!-- Sweet Alert CSS -->
