@@ -30,8 +30,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
-            'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+            'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+            'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'PreventBackHistory' => \App\Http\Middleware\PreventBackHistory::class,
             'unsubscribed' => \App\Http\Middleware\Unsubscribed::class,
             'install' => \App\Http\Middleware\Install::class,
