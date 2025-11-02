@@ -1,4 +1,4 @@
-{{-- NUCLEAR CACHE BUST: 1762096262 - FORCED FILE RECOGNITION - GPT-5 + EventSource fix --}}
+{{-- NUCLEAR CACHE BUST: 1762110402 - FORCED FILE RECOGNITION - GPT-5 + EventSource fix --}}
 @extends('layouts.app')
 @section('css')
 	<!-- Sweet Alert CSS -->
@@ -366,12 +366,12 @@
 		});	
 		
 
-		// SUBMIT FORM - TIMESTAMP: 1762096262 - NUCLEAR CACHE BUST
+		// SUBMIT FORM - TIMESTAMP: 1762110402 - NUCLEAR CACHE BUST
 		$('#openai-form').on('submit', function(e) {
 
 			e.preventDefault();
 
-			console.log('=== CREATIVE STORIES FORM SUBMIT STARTING [BUILD:1762096262] ===');
+			console.log('=== CREATIVE STORIES FORM SUBMIT STARTING [BUILD:1762110402] ===');
 
 			let form = $(this);
 
@@ -448,8 +448,8 @@
 				}
 			});
 
-		}); // END FORM SUBMIT - BUILD:1762096262
-	}); // BUILD TIMESTAMP: 1762096262
+		}); // END FORM SUBMIT - BUILD:1762110402
+	}); // BUILD TIMESTAMP: 1762110402
 
 	function nl2br (str, is_xhtml) {
      	var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
