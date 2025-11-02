@@ -74,7 +74,20 @@ class TemplateController extends Controller
             $input_description = '';
 
             $identify = $this->api->verify_license();
-            if($identify['status']!=true){return false;}
+            if (!is_array($identify) || ($identify['status'] ?? false) !== true) {
+                Log::warning('License verification failed during content generation', [
+                    'template' => $request->template,
+                    'user_id' => auth()->id(),
+                    'response' => $identify,
+                ]);
+
+                $message = $identify['message'] ?? __('Unable to verify license. Please open the admin License settings and reactivate your license.');
+
+                return [
+                    'status' => 'error',
+                    'message' => $message,
+                ];
+            }
 
             # Check if user has access to the template
             $template = Template::where('template_code', $request->template)->first();
