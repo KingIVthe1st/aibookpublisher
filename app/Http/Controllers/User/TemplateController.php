@@ -618,7 +618,7 @@ class TemplateController extends Controller
 
             try {
 
-                if ($model == 'gpt-3.5-turbo' || $model == 'gpt-3.5-turbo-16k' || $model == 'gpt-4' || $model == 'gpt-4-32k') {
+                if ($model == 'gpt-3.5-turbo' || $model == 'gpt-3.5-turbo-16k' || $model == 'gpt-4' || $model == 'gpt-4-32k' || $model == 'gpt-4-turbo' || $model == 'gpt-4-turbo-preview' || $model == 'gpt-5' || $model == 'gpt-5-2025-08-07' || $model == 'gpt-5-mini' || $model == 'gpt-5-mini-2025-08-07' || $model == 'gpt-5-nano' || $model == 'gpt-5-nano-2025-08-07' || $model == 'gpt-5-chat-latest') {
 
                     if ( (int)$max_results > 1 ) {
                         $prompt .='. Create seperate distinct ' . $max_results . ' results.';
@@ -664,7 +664,7 @@ class TemplateController extends Controller
             $output = "";
             $responsedText = "";
             foreach ($results as $result) {
-                if ($model == 'gpt-3.5-turbo' || $model == 'gpt-3.5-turbo-16k' || $model == 'gpt-4' || $model == 'gpt-4-32k') {
+                if ($model == 'gpt-3.5-turbo' || $model == 'gpt-3.5-turbo-16k' || $model == 'gpt-4' || $model == 'gpt-4-32k' || $model == 'gpt-4-turbo' || $model == 'gpt-4-turbo-preview' || $model == 'gpt-5' || $model == 'gpt-5-2025-08-07' || $model == 'gpt-5-mini' || $model == 'gpt-5-mini-2025-08-07' || $model == 'gpt-5-nano' || $model == 'gpt-5-nano-2025-08-07' || $model == 'gpt-5-chat-latest') {
                     if (isset($result['choices'][0]['delta']['content'])) {
                         $raw = $result['choices'][0]['delta']['content'];
                         $clean = str_replace(["\r\n", "\r", "\n"], "<br/>", $raw);
