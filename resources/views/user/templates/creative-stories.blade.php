@@ -370,6 +370,9 @@
 
 			e.preventDefault();
 
+			console.log('=== FORM SUBMIT HANDLER EXECUTING ===');
+			console.log('Form action prevented, starting AJAX call to generate endpoint');
+
 			let form = $(this);
 
 			$.ajax({
@@ -379,6 +382,7 @@
 				data: form.serialize(),
 				dataType: 'json',
 				beforeSend: function() {
+					console.log('=== AJAX BEFORESEND: Calling /user/templates/original-template/generate ===');
 					$('#generate').html('');
 					$('#generate').prop('disabled', true);
 					$('#processing').show().clone().appendTo('#generate');
@@ -386,10 +390,15 @@
 				},
 				success: function (data) {
 
-					console.log('Generate response:', data);
+					console.log('=== AJAX SUCCESS HANDLER EXECUTING ===');
+					console.log('Response received from generate endpoint:', data);
+					console.log('Response type:', typeof data);
+					console.log('Response status:', data ? data.status : 'N/A');
+					console.log('Response id:', data ? data.id : 'N/A');
 
 					if (!data || typeof data !== 'object') {
-						Swal.fire('{{ __('Text Generation Error') }}', 'Invalid response from server', 'error');
+						console.error('ERROR: Invalid response - not an object');
+						Swal.fire('{{ __('Text Generation Error') }}', 'Invalid response from server (not an object)', 'error');
 						$('#generate').prop('disabled', false);
 						$('#processing', '#generate').empty().remove();
 						$('#processing').hide();
@@ -398,20 +407,27 @@
 					}
 
 					if (data['status'] == 'error' || !data['id']) {
-						Swal.fire('{{ __('Text Generation Error') }}', data['message'] || 'Unknown error occurred', 'warning');
+						console.error('ERROR: Generate returned error status or missing ID');
+						console.error('Error message:', data['message']);
+						Swal.fire('{{ __('Text Generation Error') }}', data['message'] || 'Generate endpoint returned error or missing content ID', 'warning');
 						$('#generate').prop('disabled', false);
 						$('#processing', '#generate').empty().remove();
 						$('#processing').hide();
 						$('#generate').html('{{ __('Generate Text') }}');
 
 					} else {
-						const eventSource = new EventSource(
-							"/user/templates/original-template/process?content_id=" + data.id +
+						console.log('=== SUCCESS: Content created with ID:', data.id, '===');
+						console.log('Starting EventSource streaming from process endpoint...');
+
+						const processUrl = "/user/templates/original-template/process?content_id=" + data.id +
 							"&max_results=" + data.max_results +
 							"&max_words=" + data.max_words +
 							"&temperature=" + data.temperature +
-							"&language=" + data.language
-						);
+							"&language=" + data.language;
+
+						console.log('EventSource URL:', processUrl);
+
+						const eventSource = new EventSource(processUrl);
 
 						let id = document.querySelector('.richText-editor').id;
 						let editor = document.getElementById(id);
@@ -421,6 +437,7 @@
 						eventSource.onmessage = function (e) {
 
 							if (e.data == '[DONE]') {
+								console.log('=== STREAMING COMPLETE ===');
 								eventSource.close();
 								editor.innerHTML += '<br><br>';
 								$('#generate').prop('disabled', false);
@@ -438,7 +455,7 @@
 						};
 
 						eventSource.onerror = function (e) {
-							console.log(e);
+							console.error('=== EVENTSOURCE ERROR ===', e);
 							eventSource.close();
 							$('#generate').prop('disabled', false);
 							$('#processing', '#generate').empty().remove();
@@ -448,10 +465,24 @@
 					}
 				},
 
-				error: function(data) {
+				error: function(xhr, status, error) {
+					console.error('=== AJAX ERROR HANDLER EXECUTING ===');
+					console.error('AJAX call to generate endpoint FAILED');
+					console.error('Status:', status);
+					console.error('Error:', error);
+					console.error('Response:', xhr.responseText);
+					console.error('Status code:', xhr.status);
+
+					let errorMsg = 'AJAX Error: ' + status + ' - ' + error;
+					if (xhr.status === 500) {
+						errorMsg += '\nServer returned 500 error. Check Laravel logs for details.';
+					}
+
+					Swal.fire('{{ __('AJAX Request Failed') }}', errorMsg, 'error');
 					$('#generate').prop('disabled', false);
+					$('#processing', '#generate').empty().remove();
+					$('#processing').hide();
 					$('#generate').html('{{ __('Generate Text') }}');
-					console.log(data);
 				}
 			});
 
