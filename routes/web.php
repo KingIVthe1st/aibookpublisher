@@ -428,11 +428,11 @@ Route::group(['prefix' => 'user', 'middleware' => ['verified', '2fa.verify', 'ro
     
     // USER TEMPLATE ROUTES
     Route::controller(TemplateController::class)->group(function () {
-        Route::get('/templates', 'index')->name('user.templates');       
-        Route::post('/templates/original-template/generate', 'generate');     
-        Route::get('/templates/original-template/process', 'process');   
-        Route::post('/templates/custom-template/customGenerate', 'customGenerate');   
-        Route::get('/templates/custom-template/process', 'process');                 
+        Route::get('/templates', 'index')->name('user.templates');
+        Route::post('/templates/original-template/generate', 'generate');
+        Route::match(['get', 'post'], '/templates/original-template/process', 'process');
+        Route::post('/templates/custom-template/customGenerate', 'customGenerate');
+        Route::match(['get', 'post'], '/templates/custom-template/process', 'process');                 
         Route::post('/templates/save', 'save');     
         Route::post('/templates/original-template/favorite', 'favorite');     
         Route::post('/templates/original-template/favoritecustom', 'favoriteCustom');     
