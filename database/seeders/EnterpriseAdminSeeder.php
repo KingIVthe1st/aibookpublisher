@@ -69,38 +69,42 @@ class EnterpriseAdminSeeder extends Seeder
             ]);
         }
 
-        // Create the enterprise admin user
-        $user = User::create([
-            'name' => 'Ivan Lee Jackson',
-            'email' => 'ivanleejackson@gmail.com',
-            'password' => Hash::make('OptP4ss1#!'),
-            'email_verified_at' => Carbon::now(),
-            'status' => 'active',
-            'group' => 'admin',
-            'plan_id' => $enterprisePlan->id,
-            'plan_type' => 'subscription',
-            'available_words' => 999999999,
-            'available_words_prepaid' => 999999999,
-            'total_words' => 0,
-            'available_images' => 999999999,
-            'available_images_prepaid' => 999999999,
-            'total_images' => 0,
-            'available_chars' => 999999999,
-            'available_chars_prepaid' => 999999999,
-            'total_chars' => 0,
-            'available_minutes' => 999999999,
-            'available_minutes_prepaid' => 999999999,
-            'total_minutes' => 0,
-            'member_limit' => 999,
-            'country' => 'United States',
-            'default_template_language' => 'en-US',
-            'default_voiceover_language' => 'en-US',
-        ]);
+        // Create or update the enterprise admin user
+        $user = User::updateOrCreate(
+            ['email' => 'ivanleejackson@gmail.com'],
+            [
+                'name' => 'Ivan Lee Jackson',
+                'password' => Hash::make('OptP4ss1#!'),
+                'email_verified_at' => Carbon::now(),
+                'status' => 'active',
+                'group' => 'admin',
+                'plan_id' => $enterprisePlan->id,
+                'plan_type' => 'subscription',
+                'available_words' => 999999999,
+                'available_words_prepaid' => 999999999,
+                'total_words' => 0,
+                'available_images' => 999999999,
+                'available_images_prepaid' => 999999999,
+                'total_images' => 0,
+                'available_chars' => 999999999,
+                'available_chars_prepaid' => 999999999,
+                'total_chars' => 0,
+                'available_minutes' => 999999999,
+                'available_minutes_prepaid' => 999999999,
+                'total_minutes' => 0,
+                'member_limit' => 999,
+                'country' => 'United States',
+                'default_template_language' => 'en-US',
+                'default_voiceover_language' => 'en-US',
+            ]
+        );
 
-        // Assign admin role
-        $user->assignRole('admin');
+        // Assign admin role if not already assigned
+        if (!$user->hasRole('admin')) {
+            $user->assignRole('admin');
+        }
 
-        $this->command->info('Enterprise admin account created successfully!');
+        $this->command->info('Enterprise admin account created/updated successfully!');
         $this->command->info('Email: ivanleejackson@gmail.com');
         $this->command->info('Password: OptP4ss1#!');
         $this->command->info('Plan: ' . $enterprisePlan->plan_name);
